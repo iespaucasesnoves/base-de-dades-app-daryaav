@@ -23,15 +23,16 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
 
     private ListAdapter adapter;
+    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView lv = getListView();
+        lv = (ListView) findViewById(R.id.list);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             /* EN CLICAR A UN ELEMENT DE LA LLISTA CRIDAREM A L'ACTIVITY DE EDITAR I PASSEM
@@ -52,7 +53,7 @@ public class MainActivity extends ListActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent in=new Intent(getApplicationContext(),EditActivity.class);
+                        Intent in = new Intent(getApplicationContext(),EditActivity.class);
                         in.putExtra("ID", "");
                         startActivity(in);
                     }
@@ -84,13 +85,13 @@ public class MainActivity extends ListActivity {
         bd_vi.close();
 
         // ASSIGNEM A LA LLISTA
-        adapter = new SimpleAdapter(this, llista, R.layout.activity_edit,
+        adapter = new SimpleAdapter(this, llista, R.layout.llista,
                 new String[]{"id", "nomVi", "data", "tipus"},
                 new int[]{R.id.text_id, R.id.text_nomVi, R.id.text_data, R.id.text_tipus});
-        setListAdapter(adapter);
+        lv.setAdapter(adapter);
     }
 
-    // QUAN TORNEM A L'ACTIVITAT PRINCIPAL, TORNAM A CARRGEAR LA LLISTA, ON S'HA MODIFICAT
+    // QUAN TORNEM A L'ACTIVITAT PRINCIPAL, TORNAM A CARREGAR LA LLISTA, ON S'HA MODIFICAT
     @Override
     public void onResume() {
         super.onResume();

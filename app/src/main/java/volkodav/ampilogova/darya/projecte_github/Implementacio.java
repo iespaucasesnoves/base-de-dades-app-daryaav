@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class Implementacio {
         dbAjuda = new Controlador(context);
     }
 
-    public void open() throws SQLException {
+    public void open() {
         database = dbAjuda.getWritableDatabase();
     }
 
@@ -66,7 +65,7 @@ public class Implementacio {
     // ACTUALITZAR UN VI
     public boolean actualitzarVi(Vi vi) {
         ContentValues values = new ContentValues();
-        long id=vi.getId();
+        long id = vi.getId();
         values.put(Controlador.COLUMN_NOMVI, vi.getNomVi());
         values.put(Controlador.COLUMN_ANADA, vi.getAnada());
         values.put(Controlador.COLUMN_LLOC, vi.getLloc());
@@ -93,6 +92,7 @@ public class Implementacio {
                 null);
     }
 
+    // MÈTODE QUE ENS TORNA EL VI, A TRAVÉS DEL ID PASSAT PER PARÀMETRE
     public Vi getVi(long id) {
         Vi vi;
         Cursor cursor = database.query(Controlador.TABLE_VI,
@@ -107,6 +107,7 @@ public class Implementacio {
         return vi;
     }
 
+    // MÈTODE QUE ENS TORNARÀ LA LLISTA DE TOTS ELS VINS
     public List<Vi> getAllVi() {
         List<Vi> vins = new ArrayList<Vi>();
         Cursor cursor = database.query(Controlador.TABLE_VI, allColumnsVi, null,
