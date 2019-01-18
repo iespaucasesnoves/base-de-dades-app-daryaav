@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             map.put("nomVi", vi.getNomVi());
             map.put("data", vi.getData());
             map.put("tipus", vi.getTipus());
+            map.put("graduacio", vi.getGraduacio());
             llista.add(map);
         }
 
@@ -86,8 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
         // ASSIGNEM A LA LLISTA
         adapter = new SimpleAdapter(this, llista, R.layout.llista,
-                new String[]{"id", "nomVi", "data", "tipus"},
-                new int[]{R.id.text_id, R.id.text_nomVi, R.id.text_data, R.id.text_tipus});
+                new String[]{"id", "nomVi", "data", "tipus", "graduacio"},
+                new int[]{R.id.text_id, R.id.text_nomVi, R.id.text_data, R.id.text_tipus,
+                        R.id.text_graduacio});
         lv.setAdapter(adapter);
     }
 
