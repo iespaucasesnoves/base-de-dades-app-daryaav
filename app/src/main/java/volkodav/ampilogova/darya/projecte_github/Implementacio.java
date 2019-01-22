@@ -139,6 +139,7 @@ public class Implementacio {
         v.setValVisual(cursor.getString(12));
         v.setNota(cursor.getInt(13));
         v.setFoto(cursor.getString(14));
+        v.setTipus(cursor.getString(15));
         return v;
     }
 }

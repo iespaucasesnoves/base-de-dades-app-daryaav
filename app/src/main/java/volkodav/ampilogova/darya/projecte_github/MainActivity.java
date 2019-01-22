@@ -1,6 +1,5 @@
 package volkodav.ampilogova.darya.projecte_github;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,17 +10,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
-
-import javax.sql.DataSource;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lv = (ListView) findViewById(R.id.list);
+        lv = findViewById(R.id.list);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             /* EN CLICAR A UN ELEMENT DE LA LLISTA CRIDAREM A L'ACTIVITY DE EDITAR I PASSEM
@@ -46,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btNou = (Button)findViewById(R.id.boto_afegir);
+        Button btNou = findViewById(R.id.boto_afegir);
         btNou.setOnClickListener(
 
         // CRIDEM A L'ACTIVITY DE EDICIÓ INDICANT QUE ÉS UN INSERT (EX: CLAU PRIMÀRIA EN BLANC)
@@ -76,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
             Vi vi = llistaVins.get(i);
             map.put("id", String.valueOf(vi.getId()));
             map.put("nomVi", vi.getNomVi());
-            map.put("data", vi.getData());
             map.put("tipus", vi.getTipus());
             map.put("graduacio", vi.getGraduacio());
+            map.put("data", vi.getData());
             llista.add(map);
         }
 
@@ -87,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
         // ASSIGNEM A LA LLISTA
         adapter = new SimpleAdapter(this, llista, R.layout.llista,
-                new String[]{"id", "nomVi", "data", "tipus", "graduacio"},
-                new int[]{R.id.text_id, R.id.text_nomVi, R.id.text_data, R.id.text_tipus,
-                        R.id.text_graduacio});
+                new String[]{"id", "nomVi", "tipus", "graduacio", "data"},
+                new int[]{R.id.text_id, R.id.text_nomVi, R.id.text_tipus, R.id.text_graduacio,
+                        R.id.text_data});
         lv.setAdapter(adapter);
     }
 
