@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
             HashMap<String, String> map = new HashMap<String, String>();
             Vi vi = llistaVins.get(i);
             map.put("id", String.valueOf(vi.getId()));
-            map.put("nomVi", vi.getNomVi());
-            map.put("tipus", vi.getTipus());
-            map.put("graduacio", vi.getGraduacio());
-            map.put("data", vi.getData());
+            map.put("nomVi", "Nom vi: " + vi.getNomVi());
+            map.put("tipus", "Tipus: " + vi.getTipus());
+            map.put("graduacio", "Graduació: " + vi.getGraduacio());
+            map.put("data", "Data: " + vi.getData());
             llista.add(map);
         }
 

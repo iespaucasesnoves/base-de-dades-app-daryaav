@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -18,8 +19,15 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         Intent i = getIntent();
-        id = i.getStringExtra("id");
+        id = i.getStringExtra("ID");
 
+        if (!id.equals("")) {
+            Implementacio im = new Implementacio(this);
+            im.open();
+            Vi vi = im.getVi(Long.valueOf(id));
+            llegirVi(vi);
+            im.close();
+        }
         creacioVi();
     }
 
@@ -37,7 +45,22 @@ public class EditActivity extends AppCompatActivity {
                 });
     }
 
+    public void llegirVi(Vi vi) {
+
+        EditText nomVi = findViewById(R.id.t_nomVi);
+        EditText tipus = findViewById(R.id.t_tipus);
+        EditText graduacio = findViewById(R.id.t_graduacio);
+        EditText data = findViewById(R.id.t_data);
+
+        nomVi.setText(vi.getNomVi());
+        tipus.setText(vi.getTipus());
+        graduacio.setText(vi.getGraduacio());
+        data.setText(vi.getData());
+
+    }
+
     public void guardaVi() {
+
         i = new Implementacio(this);
         i.open();
 
@@ -59,7 +82,6 @@ public class EditActivity extends AppCompatActivity {
         } else {
             i.crearVi(vi);
         }
-
         i.close();
     }
 }
