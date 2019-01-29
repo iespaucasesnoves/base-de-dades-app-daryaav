@@ -142,4 +142,21 @@ public class Implementacio {
         v.setTipus(cursor.getString(15));
         return v;
     }
+
+    public List<String> getAllTipus() {
+        List<String> llista = new ArrayList<String>();
+        String[] tipus_columna = {Controlador.COLUMN_TIPUS};
+        Cursor cursor = database.query(Controlador.TABLE_TIPUS, tipus_columna , null,
+                null, null, null, Controlador.COLUMN_TIPUS + " ASC");
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            String tipus = cursor.getString(0);
+            llista.add(tipus);
+            cursor.moveToNext();
+        }
+        // ENS ASSEGUREM DE TANCAR EL CURSOR
+        cursor.close();
+        return llista;
+    }
 }
