@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import static volkodav.ampilogova.darya.projecte_github.Controlador.COLUMN_NOMBODEGA;
+
 public class Implementacio {
 
     private SQLiteDatabase database;
@@ -143,6 +145,7 @@ public class Implementacio {
         return v;
     }
 
+    // CREAM EL SEGÜENT MÈTODE PER A QUE ENS TORNI TOTS ELS TIPUS DE VINS
     public List<String> getAllTipus() {
         List<String> llista = new ArrayList<String>();
         String[] tipus_columna = {Controlador.COLUMN_TIPUS};
@@ -158,5 +161,52 @@ public class Implementacio {
         // ENS ASSEGUREM DE TANCAR EL CURSOR
         cursor.close();
         return llista;
+    }
+
+    // EL MÈTODE SEGÜENT ENS TORNARÀ EL NOM DE LA BODEGA A TRAVÉS DEL ID PASSAT PER PARÀMETRE
+    public Bodega getBodega(long id) {
+        Bodega b;
+        Cursor cursor = database.query(Controlador.TABLE_BODEGA,
+                new String [] {Controlador.COLUMN__IDBODEGA,Controlador.COLUMN_NOMBODEGA},
+                Controlador.COLUMN__IDBODEGA + " = " + id, null, null,
+                null, null);
+        if (cursor.getCount()>0) {
+            cursor.moveToFirst();
+            b = cursorToBodega(cursor);
+        } else { b = new Bodega(); }    // SI EL ID ÉS -1 ÉS QUE NO ES TROBA
+        cursor.close();
+        return b;
+    }
+
+    // AQUEST MÈTODE ENS CERCARÀ LA BODEGA A TRAVÉS DEL NOM
+    public long findInsertBodegaPerNom(String bod) {
+        Bodega b;
+        long id;
+        Cursor cursor = database.query(Controlador.TABLE_BODEGA,
+                new String [] {Controlador.COLUMN__IDBODEGA,Controlador.COLUMN_NOMBODEGA},
+                Controlador.COLUMN_NOMBODEGA + " = '" + bod +"'", null,
+                null, null, null);
+        if (cursor.getCount()>0) {
+            cursor.moveToFirst();
+            b = cursorToBodega(cursor);
+            id = b.getIdBodega();
+        } else { id = createBodegafromList(bod); }    // SI EL ID ÉS -1 ÉS QUE NO ES TROBA
+        cursor.close();
+        return id;
+    }
+
+    private Bodega cursorToBodega(Cursor cursor) {
+        Bodega b = new Bodega();
+        b.setIdBodega(cursor.getLong(0));
+        b.setNomBodega(cursor.getString(1));
+        return b;
+    }
+
+    // CREA LA BODEGA NOVA DINS LA LLISTA
+    private long createBodegafromList(String nomBodega) {
+        ContentValues values = new ContentValues();
+        values.put(Controlador.COLUMN_NOMBODEGA, nomBodega);
+        long insertId = database.insert(Controlador.TABLE_BODEGA, null,values);
+        return insertId;
     }
 }

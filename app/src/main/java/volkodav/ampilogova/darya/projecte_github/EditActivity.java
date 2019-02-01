@@ -1,21 +1,15 @@
 package volkodav.ampilogova.darya.projecte_github;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-
-import static volkodav.ampilogova.darya.projecte_github.Controlador.COLUMN_TIPUS;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -68,11 +62,13 @@ public class EditActivity extends AppCompatActivity {
         EditText nomVi = findViewById(R.id.t_nomVi);
         Spinner tipus = findViewById(R.id.sp_tipus);
         EditText graduacio = findViewById(R.id.t_graduacio);
+        AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
         EditText data = findViewById(R.id.t_data);
 
         nomVi.setText(vi.getNomVi());
         montaSpinners(vi.getTipus());
         graduacio.setText(vi.getGraduacio());
+        montaAutocompleta(implementacio.getBodega(vi.getIdBodega()).getNomBodega());
         data.setText(vi.getData());
     }
 
@@ -87,11 +83,13 @@ public class EditActivity extends AppCompatActivity {
         EditText nomVi = findViewById(R.id.t_nomVi);
         Spinner tipus = findViewById(R.id.sp_tipus);
         EditText graduacio = findViewById(R.id.t_graduacio);
+        AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
         EditText data = findViewById(R.id.t_data);
 
         vi.setNomVi(nomVi.getText().toString());
         vi.setTipus(tipus.getSelectedItem().toString());
         vi.setGraduacio(graduacio.getText().toString());
+        vi.setIdBodega(implementacio.findInsertBodegaPerNom(bodega.getText().toString()));
         vi.setData(data.getText().toString());
 
         // SI EL ID DEL VI QUE SE LI HA PASSAT NO EXISTEIX, ACTUALITZEM
@@ -137,6 +135,20 @@ public class EditActivity extends AppCompatActivity {
                 spinner.setSelection(i);
                 break;
             }
+        }
+    }
+
+    // FEIM UN AUTOCOMPLETE TEXT PER PODER ELEGIR ELS VALORS DE UNA LLISTA O INTRODUÏR-NE DE NOUS
+    private void montaAutocompleta(String b){
+        List<String> llista;
+        llista = implementacio.getBodega();
+        ArrayAdapter<String> adapter = new
+                ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, llista);
+        AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
+        bodega.setThreshold(0);
+        bodega.setAdapter(adapter);
+        if (b!=null && !b.equals("")) {
+            bodega.setText(b,true);
         }
     }
 }

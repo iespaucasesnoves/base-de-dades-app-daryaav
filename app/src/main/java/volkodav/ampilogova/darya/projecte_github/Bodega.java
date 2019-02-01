@@ -12,6 +12,8 @@ public class Bodega {
         this.nomBodega = nomBodega;
     }
 
+    public Bodega(){}
+
     // MÈTODES GETTER I SETTER
     public long getIdBodega() {
         return idBodega;
