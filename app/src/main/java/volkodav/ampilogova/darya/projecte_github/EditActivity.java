@@ -62,13 +62,15 @@ public class EditActivity extends AppCompatActivity {
         EditText nomVi = findViewById(R.id.t_nomVi);
         Spinner tipus = findViewById(R.id.sp_tipus);
         EditText graduacio = findViewById(R.id.t_graduacio);
-        AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
+        EditText bodega = findViewById(R.id.t_bodega);
+        //AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
         EditText data = findViewById(R.id.t_data);
 
         nomVi.setText(vi.getNomVi());
         montaSpinners(vi.getTipus());
         graduacio.setText(vi.getGraduacio());
-        montaAutocompleta(implementacio.getBodega(vi.getIdBodega()).getNomBodega());
+        bodega.setText(Long.valueOf(vi.getIdBodega()).toString());
+        //montaAutocompleta(implementacio.getBodega(vi.getIdBodega()).getNomBodega());
         data.setText(vi.getData());
     }
 
@@ -83,13 +85,15 @@ public class EditActivity extends AppCompatActivity {
         EditText nomVi = findViewById(R.id.t_nomVi);
         Spinner tipus = findViewById(R.id.sp_tipus);
         EditText graduacio = findViewById(R.id.t_graduacio);
-        AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
+        EditText bodega = findViewById(R.id.t_bodega);
+        //AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
         EditText data = findViewById(R.id.t_data);
 
         vi.setNomVi(nomVi.getText().toString());
         vi.setTipus(tipus.getSelectedItem().toString());
         vi.setGraduacio(graduacio.getText().toString());
-        vi.setIdBodega(implementacio.findInsertBodegaPerNom(bodega.getText().toString()));
+        vi.setIdBodega(Long.valueOf(bodega.getText().toString()));
+        //vi.setIdBodega(implementacio.findInsertBodegaPerNom(bodega.getText().toString()));
         vi.setData(data.getText().toString());
 
         // SI EL ID DEL VI QUE SE LI HA PASSAT NO EXISTEIX, ACTUALITZEM
@@ -139,7 +143,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     // FEIM UN AUTOCOMPLETE TEXT PER PODER ELEGIR ELS VALORS DE UNA LLISTA O INTRODUÏR-NE DE NOUS
-    private void montaAutocompleta(String b){
+    /*private void montaAutocompleta(String b){
         List<String> llista = implementacio.getBodega();
         ArrayAdapter<String> adapter = new
                 ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, llista);
@@ -149,5 +153,5 @@ public class EditActivity extends AppCompatActivity {
         if (b!=null && !b.equals("")) {
             bodega.setText(b,true);
         }
-    }
+    }*/
 }
