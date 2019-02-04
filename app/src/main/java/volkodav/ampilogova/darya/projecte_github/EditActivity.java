@@ -140,8 +140,7 @@ public class EditActivity extends AppCompatActivity {
 
     // FEIM UN AUTOCOMPLETE TEXT PER PODER ELEGIR ELS VALORS DE UNA LLISTA O INTRODUÏR-NE DE NOUS
     private void montaAutocompleta(String b){
-        List<String> llista;
-        llista = implementacio.getBodega();
+        List<String> llista = implementacio.getBodega();
         ArrayAdapter<String> adapter = new
                 ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, llista);
         AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
