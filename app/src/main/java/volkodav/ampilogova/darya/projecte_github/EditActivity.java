@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -59,19 +60,22 @@ public class EditActivity extends AppCompatActivity {
 
     // MÈTODE PER PODER VEURE LES DADES DEL VI, EN CLICAR DAMUNT ELL
     public void llegirVi(Vi vi) {
+
+        implementacio.open();
+
         EditText nomVi = findViewById(R.id.t_nomVi);
         Spinner tipus = findViewById(R.id.sp_tipus);
         EditText graduacio = findViewById(R.id.t_graduacio);
-        EditText bodega = findViewById(R.id.t_bodega);
-        //AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
+        AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
         EditText data = findViewById(R.id.t_data);
 
         nomVi.setText(vi.getNomVi());
         montaSpinners(vi.getTipus());
         graduacio.setText(vi.getGraduacio());
-        bodega.setText(Long.valueOf(vi.getIdBodega()).toString());
-        //montaAutocompleta(implementacio.getBodega(vi.getIdBodega()).getNomBodega());
+        montaAutocompleta(vi.getIdBodega());
         data.setText(vi.getData());
+
+        implementacio.close();
     }
 
     // CREAM EL MÈTODE GUARDAR VI PER A PODER GUARDAR EL QUE HEM INSTRODUÏT DINS LES CAIXES
@@ -85,19 +89,21 @@ public class EditActivity extends AppCompatActivity {
         EditText nomVi = findViewById(R.id.t_nomVi);
         Spinner tipus = findViewById(R.id.sp_tipus);
         EditText graduacio = findViewById(R.id.t_graduacio);
-        EditText bodega = findViewById(R.id.t_bodega);
-        //AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
+        AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
         EditText data = findViewById(R.id.t_data);
 
         vi.setNomVi(nomVi.getText().toString());
-        vi.setTipus(tipus.getSelectedItem().toString());
+        montaSpinners(tipus.getSelectedItem().toString());
+        //vi.setTipus(tipus.getSelectedItem().toString());
         vi.setGraduacio(graduacio.getText().toString());
-        vi.setIdBodega(Long.valueOf(bodega.getText().toString()));
-        //vi.setIdBodega(implementacio.findInsertBodegaPerNom(bodega.getText().toString()));
+        vi.setIdBodega(implementacio.findInsertBodegaPerNom(bodega.getText().toString()));
         vi.setData(data.getText().toString());
+
+
 
         // SI EL ID DEL VI QUE SE LI HA PASSAT NO EXISTEIX, ACTUALITZEM
         if (!id.equals("")) {
+            vi.setId(Long.valueOf(id));
             //update
             implementacio.actualitzarVi(vi);
 
@@ -143,15 +149,25 @@ public class EditActivity extends AppCompatActivity {
     }
 
     // FEIM UN AUTOCOMPLETE TEXT PER PODER ELEGIR ELS VALORS DE UNA LLISTA O INTRODUÏR-NE DE NOUS
-    /*private void montaAutocompleta(String b){
-        List<String> llista = implementacio.getBodega();
+    private void montaAutocompleta(long idBodega){
+
+        String nomBodega;
+        Bodega bodegues;
+
+        implementacio.open();
+        bodegues = implementacio.getBodega(idBodega);
+        nomBodega = bodegues.getNomBodega();
+
+        List<String> llista = implementacio.getAllBodega();
         ArrayAdapter<String> adapter = new
                 ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, llista);
         AutoCompleteTextView bodega = findViewById(R.id.t_bodega);
         bodega.setThreshold(0);
         bodega.setAdapter(adapter);
-        if (b!=null && !b.equals("")) {
-            bodega.setText(b,true);
+        if (nomBodega!=null && !nomBodega.equals("")) {
+            bodega.setText(nomBodega,true);
         }
-    }*/
+
+        implementacio.close();
+    }
 }

@@ -209,4 +209,21 @@ public class Implementacio {
         long insertId = database.insert(Controlador.TABLE_BODEGA, null,values);
         return insertId;
     }
+
+    public List<String> getAllBodega() {
+        List<String> llista = new ArrayList<String>();
+        String[] tipus_columna = {Controlador.COLUMN_NOMBODEGA};
+        Cursor cursor = database.query(Controlador.TABLE_BODEGA, tipus_columna , null,
+                null, null, null, Controlador.COLUMN_NOMBODEGA + " ASC");
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            String bodega = cursor.getString(0);
+            llista.add(bodega);
+            cursor.moveToNext();
+        }
+        // ENS ASSEGUREM DE TANCAR EL CURSOR
+        cursor.close();
+        return llista;
+    }
 }

@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         // ASSIGNEM A LA LLISTA
         adapter = new SimpleAdapter(this, llista, R.layout.llista,
-                new String[]{"id", "nomVi", "tipus", "graduacio", "data"},
+                new String[]{"id", "nomVi", "tipus", "graduacio", "bodega", "data"},
                 new int[]{R.id.text_id, R.id.text_nomVi, R.id.text_tipus, R.id.text_graduacio,
                         R.id.text_bodega, R.id.text_data});
         lv.setAdapter(adapter);
